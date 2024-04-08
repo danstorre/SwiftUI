@@ -8,12 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var isOn = false
+    
     var body: some View {
         ZStack {
-            Image(uiImage: UIImage(named: "day")!)
-                .resizable()
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            if isOn {
+                Image(uiImage: UIImage(named: "day")!)
+                    .resizable()
+                    .foregroundStyle(.tint)
+            } else {
+                Image(uiImage: UIImage(named: "night")!)
+                    .resizable()
+                    .foregroundStyle(.tint)
+            }
+           
+            Toggle(isOn: $isOn, label: {
+                Text("Toggle Light")
+                    .font(.bold(.headline)())
+            })
+            .padding(.horizontal)
         }
         .ignoresSafeArea()
     }
