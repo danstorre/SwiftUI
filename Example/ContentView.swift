@@ -22,13 +22,18 @@ struct ContentView: View {
                     .foregroundStyle(.tint)
             }
            
-            Toggle(isOn: $isOn, label: {
-                Text("Toggle Light")
-                    .font(.bold(.headline)())
-            })
-            .padding(.horizontal)
+            VStack{
+                Spacer()
+                Toggle(isOn: $isOn, label: {
+                    Text("Toggle Light")
+                        .foregroundStyle(.white)
+                        .font(.bold(.headline)())
+                })
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
         }
-        .ignoresSafeArea()
+        
     }
 }
 
