@@ -18,16 +18,36 @@ struct ContentView: View {
                 .ignoresSafeArea()
                 .animation(.easeInOut, value: isOn)
            
-            VStack{
+            VStack {
+                Spacer()
+                
+                VStack(alignment: isOn ? .leading : .trailing) {
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .border(.white, width: 5)
+                    if isOn {
+                        Text("is day!")
+                            .foregroundStyle(.white)
+                            .font(.bold(.headline)())
+                            .frame(width: 300)
+                    } else {
+                        Text("is night!")
+                            .foregroundStyle(.white)
+                            .font(.bold(.headline)())
+                            .frame(width: 300)
+                    }
+                }
+                .animation(.easeInOut, value: isOn)
+                
                 Spacer()
                 Toggle(isOn: $isOn, label: {
                     Text("Toggle Light")
                         .foregroundStyle(.white)
                         .font(.bold(.headline)())
                 })
-                .padding(.horizontal)
                 .padding(.bottom)
             }
+            .padding(.horizontal)
         }
         
     }
