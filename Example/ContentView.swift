@@ -12,15 +12,11 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            if isOn {
-                Image(uiImage: UIImage(named: "day")!)
-                    .resizable()
-                    .foregroundStyle(.tint)
-            } else {
-                Image(uiImage: UIImage(named: "night")!)
-                    .resizable()
-                    .foregroundStyle(.tint)
-            }
+            Image(uiImage: isOn ? UIImage(named: "day")! : UIImage(named: "night")!)
+                .resizable()
+                .foregroundStyle(.tint)
+                .ignoresSafeArea()
+                .animation(.easeInOut, value: isOn)
            
             VStack{
                 Spacer()
