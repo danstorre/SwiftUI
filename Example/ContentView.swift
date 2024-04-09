@@ -30,6 +30,7 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 TemperatureView(temp: vm.temp, isOn: isOn)
+                    .animation(.spring, value: isOn)
                 Spacer()
                 ToggleDay(isOn: $isOn)
             }
@@ -66,7 +67,6 @@ struct TemperatureView: View {
             }
         }
         .frame(width: 300)
-        .animation(.easeInOut, value: isOn)
     }
 }
 
