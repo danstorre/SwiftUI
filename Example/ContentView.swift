@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var temp = "Hot"
     @State var isOn = false
     
     var body: some View {
@@ -20,11 +21,14 @@ struct ContentView: View {
            
             VStack {
                 Spacer()
-                TemperatureView(isOn: isOn)
+                TemperatureView(temp: temp, isOn: isOn)
                 Spacer()
                 ToggleDay(isOn: $isOn)
             }
             .padding(.horizontal)
+            .onChange(of: isOn) { oldValue, newValue in
+                temp = newValue ? "Hot" : "Cold"
+            }
         }
         
     }
@@ -35,6 +39,7 @@ struct ContentView: View {
 }
 
 struct TemperatureView: View {
+    let temp: String
     let isOn: Bool
     
     var body: some View {
@@ -44,7 +49,7 @@ struct TemperatureView: View {
                 .border(.white, width: 5)
             
             HStack {
-                Text("Temperature")
+                Text(temp)
                     .foregroundStyle(.white)
                     .font(.bold(.headline)())
                 Circle()
