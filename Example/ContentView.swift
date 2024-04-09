@@ -25,18 +25,17 @@ struct ContentView: View {
                     Rectangle()
                         .foregroundColor(.clear)
                         .border(.white, width: 5)
-                    if isOn {
-                        Text("is day!")
-                            .foregroundStyle(.white)
-                            .font(.bold(.headline)())
-                            .frame(width: 300)
-                    } else {
-                        Text("is night!")
-                            .foregroundStyle(.white)
-                            .font(.bold(.headline)())
-                            .frame(width: 300)
-                    }
+                    
+                        HStack {
+                            Text("Temperature")
+                                .foregroundStyle(.white)
+                                .font(.bold(.headline)())
+                            Circle()
+                                .frame(width: 40)
+                                .foregroundStyle(isOn ? .red : .blue)
+                        }
                 }
+                .frame(width: 300)
                 .animation(.easeInOut, value: isOn)
                 
                 Spacer()
