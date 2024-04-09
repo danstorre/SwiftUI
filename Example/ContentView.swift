@@ -7,26 +7,42 @@
 
 import SwiftUI
 
+class DayAndNight: ObservableObject {
+    private lazy var day = UIImage(named: "day")!
+    private lazy var night = UIImage(named: "night")!
+    @Published private(set) var image: UIImage = UIImage(named: "day")!
+    
+    func updateLight(isOn: Bool) {
+        image = isOn ? day : night
+    }
+}
+
+
 struct ContentView: View {
+    @StateObject var vm: DayAndNight = DayAndNight()
+    @State var tempText: String = "Cold"
     @State var isOn = false
     
     var body: some View {
         ZStack {
-            Image(uiImage: isOn ? UIImage(named: "day")! : UIImage(named: "night")!)
+            Image(uiImage: vm.image)
                 .resizable()
                 .foregroundStyle(.tint)
                 .ignoresSafeArea()
-                .animation(.easeInOut, value: isOn)
+                .animation(.easeInOut, value: vm.image)
            
             VStack {
                 Spacer()
-                TemperatureView(isOn: isOn)
+                TemperatureView(text: tempText, isOn: isOn)
                 Spacer()
                 ToggleDay(isOn: $isOn)
             }
             .padding(.horizontal)
+            .onChange(of: isOn) { _, newValue in
+                tempText = newValue ? "Hot!" : "Cold"
+                vm.updateLight(isOn: newValue)
+            }
         }
-        
     }
 }
 
@@ -35,6 +51,7 @@ struct ContentView: View {
 }
 
 struct TemperatureView: View {
+    let text: String
     let isOn: Bool
     
     var body: some View {
@@ -44,19 +61,13 @@ struct TemperatureView: View {
                 .border(.white, width: 5)
             
             HStack {
-                Text(isOn ? "Hot" : "Cold")
+                Text(text)
                     .foregroundStyle(.white)
                     .font(.bold(.headline)())
                 
-                if isOn {
-                    Circle()
-                        .frame(width: 40)
-                        .foregroundStyle(.red)
-                } else {
-                    Circle()
-                        .frame(width: 40)
-                        .foregroundStyle(.blue)
-                }
+                Circle()
+                    .frame(width: 40)
+                    .foregroundStyle(isOn ? .red : .blue)
             }
         }
         .frame(width: 300)
