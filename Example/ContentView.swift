@@ -7,8 +7,16 @@
 
 import SwiftUI
 
+class TemperatureViewModel: ObservableObject {
+    @Published private(set) var temp = "Cold"
+    
+    func updateTemperature(isDay: Bool) {
+        temp = isDay ? "Hot" : "Cold"
+    }
+}
+
 struct ContentView: View {
-    @State var temp = "Hot"
+    @ObservedObject var vm: TemperatureViewModel
     @State var isOn = false
     
     var body: some View {
@@ -21,13 +29,13 @@ struct ContentView: View {
            
             VStack {
                 Spacer()
-                TemperatureView(temp: temp, isOn: isOn)
+                TemperatureView(temp: vm.temp, isOn: isOn)
                 Spacer()
                 ToggleDay(isOn: $isOn)
             }
             .padding(.horizontal)
-            .onChange(of: isOn) { oldValue, newValue in
-                temp = newValue ? "Hot" : "Cold"
+            .onChange(of: isOn) { _, newValue in
+                vm.updateTemperature(isDay: newValue)
             }
         }
         
@@ -35,7 +43,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(vm: TemperatureViewModel())
 }
 
 struct TemperatureView: View {
