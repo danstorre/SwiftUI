@@ -44,12 +44,19 @@ struct TemperatureView: View {
                 .border(.white, width: 5)
             
             HStack {
-                Text("Temperature")
+                Text(isOn ? "Hot" : "Cold")
                     .foregroundStyle(.white)
                     .font(.bold(.headline)())
-                Circle()
-                    .frame(width: 40)
-                    .foregroundStyle(isOn ? .red : .blue)
+                
+                if isOn {
+                    Circle()
+                        .frame(width: 40)
+                        .foregroundStyle(.red)
+                } else {
+                    Circle()
+                        .frame(width: 40)
+                        .foregroundStyle(.blue)
+                }
             }
         }
         .frame(width: 300)
